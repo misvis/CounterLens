@@ -112,6 +112,8 @@ const TRANSLATIONS = {
     tutorialDescEditor: "After selecting a student, use this panel to ask 'what if?' — tweak GPA, SAT, or identity attributes to see if and how the admission result flips.",
     tutorialStepConfusion: "Confusion Matrix",
     tutorialDescConfusion: "Compares the model's decisions against hidden ground truth. Click any cell (TP, FP, FN, TN) to filter the scatter chart and spotlight those specific cases.",
+    tutorialStepData: "Data Explorer",
+    tutorialDescData: "Explore dataset distributions and statistics. Toggle between Dataset Slices to see demographic scoring distributions and Data Statistics to view global feature distributions.",
     editorExplainer: "The Editor enables you to manipulate features to see 'what if' the inputs were different. This helps in understanding the model's decision boundaries and sensitivity.",
     dataStats: "Data Statistics",
     numericFeatures: "Numeric Features",
@@ -201,6 +203,8 @@ const TRANSLATIONS = {
     tutorialDescEditor: "选中一名学生后，用这个面板来做'如果…会怎样？'的实验 — 调整 GPA、SAT 或身份属性，看录取结果是否反转。",
     tutorialStepConfusion: "混淆矩阵",
     tutorialDescConfusion: "将模型判定与隐藏的真实潜质对比。点击任一单元格（TP、FP、FN、TN）可在散点图中筛选出对应的样本。",
+    tutorialStepData: "数据探索面板",
+    tutorialDescData: "探索数据集的各项统计特征。你可以切换'数据集切片'来观察各群体的分数分布，或切换'数据统计'来查看全局的特征分布情况。",
     dataStats: "数据统计",
     numericFeatures: "数值特征",
     categoricalFeatures: "分类特征",
@@ -278,6 +282,8 @@ const TRANSLATIONS = {
     tutorialDescEditor: "Después de seleccionar un estudiante, modifica atributos para ver si cambia el resultado.",
     tutorialStepConfusion: "Matriz de Confusión",
     tutorialDescConfusion: "Compara las decisiones del modelo con la verdad real. Haz clic en celdas para filtrar.",
+    tutorialStepData: "Explorador de Datos",
+    tutorialDescData: "Explore distribuciones y estadísticas. Alterne entre Dataset Slices para ver distribuciones demográficas y Data Statistics para distribuciones globales.",
     dataStats: "Estadísticas",
     numericFeatures: "Características Numéricas",
     categoricalFeatures: "Características Categóricas",
@@ -332,6 +338,7 @@ const App = () => {
   const refViz = useRef(null);
   const refEditor = useRef(null);
   const refConfusion = useRef(null);
+  const refData = useRef(null);
 
   const TUTORIAL_STEPS = useMemo(() => [
     { ref: refParams,    title: t.tutorialStepParams,    desc: t.tutorialDescParams,    arrow: 'right', offsetX: 16, offsetY: 0 },
@@ -340,6 +347,7 @@ const App = () => {
     { ref: refViz,        title: t.tutorialStepViz,        desc: t.tutorialDescViz,        arrow: 'bottom', offsetX: 0, offsetY: 16 },
     { ref: refEditor,     title: t.tutorialStepEditor,     desc: t.tutorialDescEditor,     arrow: 'left', offsetX: -16, offsetY: 0 },
     { ref: refConfusion,  title: t.tutorialStepConfusion,  desc: t.tutorialDescConfusion,  arrow: 'left', offsetX: -16, offsetY: 0 },
+    { ref: refData,       title: t.tutorialStepData,       desc: t.tutorialDescData,       arrow: 'top',  offsetX: 0, offsetY: -16 },
   ], [t]);
 
   // Measure target element position for spotlight
@@ -1085,7 +1093,7 @@ const App = () => {
             </div>
           </div>
 
-          <div className="bg-[#161b22] border border-slate-800 rounded-2xl glass-card p-4 h-[31%] relative shadow-inner aurora-border flex flex-col gap-2 overflow-hidden">
+          <div ref={refData} className="bg-[#161b22] border border-slate-800 rounded-2xl glass-card p-4 h-[31%] relative shadow-inner aurora-border flex flex-col gap-2 overflow-hidden">
             {/* Header with tabs */}
             <div className="flex justify-between items-center border-b border-white/10 pb-2 flex-shrink-0">
               <div className="flex items-center gap-2">
