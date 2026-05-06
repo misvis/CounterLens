@@ -5,7 +5,7 @@
 
 **CounterLens** is an interactive educational interface designed to help users explore dataset slices, decision margins, and algorithmic fairness through a guided counterfactual visualizer and demo scenarios.
 
-🌍 **Live Demo:** [https://rmwillia-umbc.github.io/CounterLens/](https://rmwillia-umbc.github.io/CounterLens/)
+🌍 **Live Demo:** [https://misvis.github.io/CounterLens/](https://misvis.github.io/CounterLens/)
 
 ## Features
 - **Guided Tutorials:** Walkthrough systems with spotlights and tooltips to help new users understand the modules.
@@ -19,7 +19,7 @@ To run this project locally on your machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/rmwillia-umbc/CounterLens.git
+   git clone https://github.com/misvis/CounterLens.git
    cd CounterLens
    ```
 

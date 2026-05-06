@@ -1,6 +1,6 @@
 {
   "name": "counter-lens",
-  "homepage": "https://rmwillia-umbc.github.io/CounterLens/",
+  "homepage": "https://misvis.github.io/CounterLens/",
   "private": true,
   "version": "2.5.0",
   "type": "module",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist -o umbc"
+    "deploy": "gh-pages -d dist -o misvis"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
