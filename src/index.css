@@ -123,46 +123,46 @@ input[type=range]::-moz-range-track {
     opacity: 0.15;
 }
 
-/* Glassmorphism Styles */
+/* Glassmorphism Styles (Nebula Glow Theme) */
 .glass-active {
-    background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.2) 0px, transparent 50%),
-        radial-gradient(at 50% -10%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.2) 0px, transparent 50%),
-        #080a0f !important;
+    background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+        radial-gradient(at 50% -10%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.1) 0px, transparent 50%),
+        #07090e !important; /* Extremely deep space navy base */
 }
 
 .glass-active .glass-card {
-    background: rgba(13, 17, 23, 0.75) !important;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+    background: rgba(11, 15, 23, 0.92) !important; /* Increased opacity to prevent background bleed and improve focus */
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.14) !important; /* Crisp border */
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
 }
 
 .glass-active .glass-header {
     background: transparent !important;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .glass-active input[type=range]::-webkit-slider-runnable-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.15) !important; /* Brighter and more visible track */
 }
 
 .glass-active input[type=range]::-moz-range-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.15) !important; /* Brighter and more visible track */
 }
 
 .glass-active .glass-button {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .glass-active .glass-button:hover {
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 @keyframes mesh-float {
@@ -197,9 +197,10 @@ input[type=range]::-moz-range-track {
 
 .mesh-circle {
     position: absolute;
-    filter: blur(80px);
+    filter: blur(100px);
     border-radius: 50%;
-    animation: mesh-float 10s infinite ease-in-out;
+    animation: mesh-float 40s infinite ease-in-out; /* Dramatically slowed down to prevent distraction */
+    opacity: 0.45; /* Soften the glow to maximize focus on content */
 }
 
 /* Educational Affordance: Tactile Buttons */
@@ -378,6 +379,165 @@ input[type=range]::-moz-range-track {
 .glass-active .result-indicator {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
+}
+
+/* ========== Daylight (Light) Theme ========== */
+.theme-daylight {
+    background: linear-gradient(135deg, #f0f4f8 0%, #f8f9fc 40%, #eef2ff 100%) !important;
+    color: #334155 !important;
+}
+
+.theme-daylight .glass-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.theme-daylight .glass-header {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Slider tracks — soft slate */
+.theme-daylight input[type=range]::-webkit-slider-runnable-track {
+    background: #cbd5e1 !important;
+}
+
+.theme-daylight input[type=range]::-moz-range-track {
+    background: #cbd5e1 !important;
+}
+
+.theme-daylight input[type=range]::-webkit-slider-thumb {
+    background: #3b82f6;
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+}
+
+.theme-daylight input[type=range]::-moz-range-thumb {
+    background: #3b82f6;
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+}
+
+/* Buttons — refined light tactile */
+.theme-daylight .btn-tactile {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.theme-daylight .btn-tactile::after {
+    opacity: 0.08;
+}
+
+.theme-daylight .btn-tactile::before {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.03), transparent);
+}
+
+.theme-daylight .btn-tactile:hover {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    color: #1e293b;
+    filter: brightness(1);
+}
+
+.theme-daylight .btn-tactile:hover::after {
+    opacity: 0.15;
+}
+
+.theme-daylight .btn-primary-tactile {
+    background: rgba(59, 130, 246, 0.08) !important;
+    border-color: rgba(59, 130, 246, 0.25) !important;
+}
+
+.theme-daylight .btn-primary-tactile:hover {
+    background: rgba(59, 130, 246, 0.15) !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+}
+
+/* Result Indicator */
+.theme-daylight .result-indicator {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.theme-daylight .result-indicator.status-admit {
+    border-color: rgba(16, 185, 129, 0.35);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.08);
+}
+
+.theme-daylight .result-indicator.status-reject {
+    border-color: rgba(244, 63, 94, 0.35);
+    box-shadow: 0 0 12px rgba(244, 63, 94, 0.08);
+}
+
+/* Aurora border — soften for light */
+.theme-daylight .aurora-border::before {
+    opacity: 0 !important;
+}
+
+.theme-daylight .aurora-border:hover::before {
+    opacity: 0.06 !important;
+}
+
+/* =========================================================
+   Daylight Theme Utility Overrides
+   (Force hardcoded dark mode colors to be readable in light mode)
+   ========================================================= */
+.theme-daylight .text-slate-200,
+.theme-daylight .text-slate-300,
+.theme-daylight .text-slate-400 {
+    color: #1e293b !important; /* text-slate-800 - extreme contrast */
+}
+
+.theme-daylight .text-slate-500,
+.theme-daylight .text-slate-600 {
+    color: #334155 !important; /* text-slate-700 - strong contrast */
+}
+
+/* Accent texts - deepen for contrast */
+.theme-daylight .text-blue-300,
+.theme-daylight .text-blue-400 { color: #2563eb !important; } /* blue-600 */
+.theme-daylight .text-blue-400\/70 { color: rgba(37, 99, 235, 0.9) !important; }
+.theme-daylight .text-rose-400 { color: #e11d48 !important; } /* rose-600 */
+.theme-daylight .text-amber-400 { color: #d97706 !important; } /* amber-600 */
+.theme-daylight .text-indigo-400 { color: #4f46e5 !important; } /* indigo-600 */
+.theme-daylight .text-purple-300,
+.theme-daylight .text-purple-400 { color: #7c3aed !important; } /* purple-600 */
+.theme-daylight .text-purple-400\/70 { color: rgba(124, 58, 237, 0.9) !important; }
+.theme-daylight .text-emerald-400 { color: #059669 !important; } /* emerald-600 */
+
+/* Backgrounds - lighten dark containers */
+.theme-daylight .bg-slate-800,
+.theme-daylight .bg-slate-800\/20,
+.theme-daylight .bg-slate-800\/30,
+.theme-daylight .bg-slate-800\/40,
+.theme-daylight .bg-slate-800\/60,
+.theme-daylight .bg-slate-900,
+.theme-daylight .bg-slate-900\/50,
+.theme-daylight .bg-slate-900\/60 {
+    background-color: #f1f5f9 !important; /* slate-100 */
+}
+
+/* Borders - lighten dark borders */
+.theme-daylight .border-slate-700,
+.theme-daylight .border-slate-700\/50,
+.theme-daylight .border-slate-800,
+.theme-daylight .border-slate-800\/80 {
+    border-color: #e2e8f0 !important; /* slate-200 */
+}
+
+.theme-daylight .bg-blue-600\/40 {
+    background-color: #dbeafe !important; /* blue-100 */
+    color: #2563eb !important; /* blue-600 */
+}
+
+.theme-daylight .hover\:bg-slate-700:hover {
+    background-color: #e2e8f0 !important; /* slate-200 */
 }
 
 @keyframes fate-flip {
@@ -626,4 +786,38 @@ input[type=range]::-moz-range-track {
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
         0 0 60px rgba(59, 130, 246, 0.1);
     animation: tooltip-enter 0.5s ease-out;
+}
+
+/* =========================================================
+   Tutorial Light Theme Overrides
+   ========================================================= */
+.theme-daylight .tutorial-backdrop {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(2px);
+}
+
+.theme-daylight .tutorial-spotlight {
+    box-shadow: 0 0 0 4000px rgba(255, 255, 255, 0.8),
+        0 0 30px 4px rgba(59, 130, 246, 0.25);
+}
+
+.theme-daylight .tutorial-tooltip,
+.theme-daylight .tutorial-welcome-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08),
+        0 0 40px rgba(59, 130, 246, 0.1);
+}
+
+.theme-daylight .tutorial-tooltip::before {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+}
+
+.theme-daylight .tutorial-dot {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.theme-daylight .tutorial-welcome {
+    background: rgba(255, 255, 255, 0.7);
 }

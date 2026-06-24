@@ -5,7 +5,7 @@ import {
   Cell, ScatterChart, Scatter, ReferenceLine, LabelList
 } from 'recharts';
 import {
-  Sparkles, Info, ExternalLink, Telescope, RotateCcw, Trash2, HelpCircle, Activity, RefreshCw, Target,
+  Sparkles, Palette, Info, ExternalLink, Telescope, RotateCcw, Trash2, HelpCircle, Activity, RefreshCw, Target,
   ChevronDown, ChevronUp, Square, CheckSquare, GripHorizontal, Sliders, Settings, Filter, Users, LayoutDashboard, Database, AlertCircle, CheckCircle2, XCircle, MoreVertical,
   Maximize2, Minimize2, ZoomIn, ZoomOut, Download, Share2, Save, FileText, Bookmark, BookOpen, GraduationCap, Github, Lightbulb,
   Layout, BarChart3, Fingerprint, User, ShieldAlert, School, Globe
@@ -58,7 +58,7 @@ const TRANSLATIONS = {
     leadTitle: "Principal Investigator",
     contributorTitle: "Researcher & Developer",
     projectLead: "Prof. Rebecca Williams",
-    contributor: "Eric Yang",
+    contributor: "Eric Yang, Ph.D. Student",
     datasetTribute: "Dataset Reference",
     datasetDesc: "Inspired by the UC Berkeley 1973 Admissions Dataset (Bickel et al., 1975). Used for exploring Simpson's Paradox and algorithmic bias.",
     department: "Dept. of Computer Science and Electrical Engineering (CSEE)",
@@ -148,7 +148,7 @@ const TRANSLATIONS = {
     leadTitle: "首席研究员 (PI)",
     contributorTitle: "研究员与开发员",
     projectLead: "Prof. Rebecca Williams",
-    contributor: "Eric Yang",
+    contributor: "Eric Yang (博士生)",
     datasetTribute: "数据集引用",
     datasetDesc: "受 1973 年加州大学伯克利分校录取数据集启发，用于探讨辛普森悖论与算法偏见。",
     department: "计算机科学与电气工程系 (CSEE)",
@@ -238,7 +238,7 @@ const TRANSLATIONS = {
     leadTitle: "Investigador Principal",
     contributorTitle: "Investigador y Desarrollador",
     projectLead: "Prof. Rebecca Williams",
-    contributor: "Eric Yang",
+    contributor: "Eric Yang, Estudiante de Doctorado",
     datasetTribute: "Referencia de Datos",
     datasetDesc: "Inspirado en el conjunto de datos de admisiones de UC Berkeley 1973.",
     department: "Depto. de Ciencias (CSEE)",
@@ -399,7 +399,12 @@ const App = () => {
     if (dir === 'top') return 'arrow-bottom';
     return '';
   }, [tutorialStep, TUTORIAL_STEPS]);
-  const [glassMode, setGlassMode] = useState(true);
+  const [theme, setTheme] = useState('nebula'); // 'nebula' | 'eclipse' | 'daylight'
+  const isNebula = theme === 'nebula';
+  const isEclipse = theme === 'eclipse';
+  const isDaylight = theme === 'daylight';
+  const isDark = !isDaylight;
+  const cycleTheme = () => setTheme(t => t === 'nebula' ? 'eclipse' : t === 'eclipse' ? 'daylight' : 'nebula');
 
   const originalStudent = useMemo(() => data.find(s => s.id === selectedId) || null, [data, selectedId]);
 
@@ -664,8 +669,8 @@ const App = () => {
   };
 
   return (
-    <div className={`h-screen ${glassMode ? 'glass-active' : 'bg-[#0d1117]'} text-slate-300 font-sans p-3 overflow-hidden flex flex-col relative selection:bg-blue-500/30 transition-colors duration-700`}>
-      {glassMode && (
+    <div className={`h-screen ${isNebula ? 'glass-active' : isEclipse ? 'bg-[#080b11]' : 'theme-daylight'} ${isDark ? 'text-slate-200' : 'text-slate-700'} font-sans p-3 overflow-hidden flex flex-col relative selection:bg-blue-500/30 transition-colors duration-700`}>
+      {isNebula && (
         <div className="mesh-bg">
           <div className="mesh-circle w-[600px] h-[600px] bg-blue-600/10 -top-[20%] -left-[10%]"></div>
           <div className="mesh-circle w-[500px] h-[500px] bg-purple-600/10 top-[40%] -right-[5%]"></div>
@@ -675,45 +680,45 @@ const App = () => {
 
       {/* Overlay Modals */}
       {(showCredits || explainer) && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-          <div className={`bg-[#161b22] border border-slate-700 w-full max-w-xl rounded-3xl pt-6 px-8 pb-8 shadow-2xl relative ${glassMode ? 'glass-card' : ''}`}>
+        <div className={`absolute inset-0 z-50 flex items-center justify-center p-6 ${isDaylight ? 'bg-slate-900/30' : 'bg-black/80'} backdrop-blur-md animate-in fade-in duration-300`}>
+          <div className={`${isDaylight ? 'bg-white border-slate-200' : 'bg-[#0f131a] border-slate-700/80'} border w-full max-w-xl rounded-3xl pt-6 px-8 pb-8 shadow-2xl relative ${isNebula ? 'glass-card' : ''}`}>
 
             {showCredits && (
               <div className="flex flex-col items-center text-center space-y-6">
                 <div className="p-4 bg-blue-600 rounded-2xl shadow-lg shadow-blue-500/20"><GraduationCap className="w-10 h-10 text-white" /></div>
-                <h2 className="text-2xl font-black text-white uppercase tracking-tight">{t.creditsTitle}</h2>
+                <h2 className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-tight`}>{t.creditsTitle}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
-                  <div className="p-4 bg-slate-800/40 rounded-2xl border border-slate-700/50 flex items-center gap-3">
+                  <div className={`p-4 ${isDaylight ? 'bg-slate-50 border-slate-200' : 'bg-slate-800/40 border-slate-700/50'} rounded-2xl border flex items-center gap-3`}>
                     <User className="w-5 h-5 text-blue-400" />
                     <div className="text-left">
                       <p className="text-xs text-slate-500 font-bold uppercase tracking-widest leading-none mb-1">{t.leadTitle}</p>
-                      <p className="text-sm font-bold text-slate-200">{t.projectLead}</p>
+                      <p className={`text-sm font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>{t.projectLead}</p>
                     </div>
                   </div>
-                  <div className="p-4 bg-slate-800/40 rounded-2xl border border-slate-700/50 flex items-center gap-3">
+                  <div className={`p-4 ${isDaylight ? 'bg-slate-50 border-slate-200' : 'bg-slate-800/40 border-slate-700/50'} rounded-2xl border flex items-center gap-3`}>
                     <ShieldAlert className="w-5 h-5 text-purple-400" />
                     <div className="text-left">
                       <p className="text-xs text-slate-500 font-bold uppercase tracking-widest leading-none mb-1">{t.contributorTitle}</p>
-                      <p className="text-sm font-bold text-slate-200">{t.contributor}</p>
+                      <p className={`text-sm font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>{t.contributor}</p>
                     </div>
                   </div>
                 </div>
-                <div className="w-full p-5 bg-slate-900/50 rounded-2xl border border-slate-800 space-y-4 text-left">
+                <div className={`w-full p-5 ${isDaylight ? 'bg-slate-50/80 border-slate-200' : 'bg-slate-900/50 border-slate-800'} rounded-2xl border space-y-4 text-left`}>
                   <div className="flex items-center gap-3">
                     <School className="w-5 h-5 text-slate-400 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-[11px] text-slate-400 font-bold uppercase leading-tight mb-1">{t.department}</p>
                       <p className="text-[11px] text-slate-400 font-bold uppercase leading-tight mb-1">{t.college}</p>
-                      <p className="text-xs font-bold text-slate-200 truncate">{t.university}</p>
+                      <p className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'} truncate`}>{t.university}</p>
                     </div>
                   </div>
-                  <div className="border-t border-slate-800 pt-3">
+                  <div className={`border-t ${isDaylight ? 'border-slate-200' : 'border-slate-800'} pt-3`}>
                     <div className="flex items-center gap-2 mb-1"><Database className="w-3.5 h-3.5 text-blue-400" /><p className="text-xs text-slate-400 font-black uppercase tracking-widest">{t.datasetTribute}</p></div>
                     <p className="text-[13px] text-slate-500 leading-snug">{t.datasetDesc}</p>
                   </div>
                   <div className="flex gap-2 pt-2">
                     <a href="https://sites.google.com/umbc.edu/prof-rebecca-williams/" target="_blank" className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-[13px] font-bold transition-all"><ExternalLink className="w-3 h-3" /> {t.visitLab}</a>
-                    <a href="https://www.csee.umbc.edu/" target="_blank" className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-[13px] font-bold transition-all"><Globe className="w-3 h-3" /> {t.visitDept}</a>
+                    <a href="https://www.csee.umbc.edu/" target="_blank" className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 ${isDaylight ? 'bg-slate-200 hover:bg-slate-300 text-slate-700' : 'bg-slate-700 hover:bg-slate-600 text-white'} rounded-xl text-[13px] font-bold transition-all`}><Globe className="w-3 h-3" /> {t.visitDept}</a>
                   </div>
                   <div className="pt-2 flex justify-end">
                     <button onClick={() => setShowCredits(false)} className="px-8 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-black uppercase transition-all btn-tactile btn-primary-tactile">OK</button>
@@ -726,7 +731,7 @@ const App = () => {
               <div className="flex flex-col space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-blue-500/10 rounded-xl text-blue-400"><BookOpen className="w-6 h-6" /></div>
-                  <h3 className="text-xl font-black text-white uppercase tracking-tight">
+                  <h3 className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-tight`}>
                     {explainer === 'threshold' ? t.threshold :
                       explainer === 'confusion' ? t.confusion :
                         explainer === 'margin' ? t.margin :
@@ -766,49 +771,49 @@ const App = () => {
       )}
 
       {/* Header */}
-      <header className={`flex items-center justify-between mb-3 border-b ${glassMode ? 'border-white/5' : 'border-slate-800/40'} pb-2 flex-shrink-0 z-10 transition-colors ${glassMode ? 'glass-header' : ''}`}>
+      <header className={`flex items-center justify-between mb-3 border-b ${isNebula ? 'border-white/5' : isEclipse ? 'border-slate-800/80' : 'border-slate-200'} pb-2 flex-shrink-0 z-10 transition-colors ${isNebula ? 'glass-header' : isDaylight ? 'glass-header' : ''}`}>
         <div className="flex items-center gap-4">
           <div className="relative flex items-center justify-center">
             <div className="absolute inset-0 bg-amber-500/20 blur-lg rounded-full"></div>
             <Telescope className="w-7 h-7 text-amber-500 relative z-10 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
           </div>
           <div className="flex flex-col w-fit">
-            <h1 className="text-lg font-black text-white uppercase tracking-[0.15em] leading-none">{t.title}</h1>
+            <h1 className={`text-lg font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-[0.15em] leading-none`}>{t.title}</h1>
             <div className="flex items-center justify-between mt-1 w-full">
               <span className="text-[9px] text-amber-500/70 font-black uppercase tracking-[0.2em] leading-none">Powered by UMBC</span>
-              <span className="text-[9px] text-slate-500 font-bold border-l border-white/10 pl-2 uppercase tracking-widest leading-none">V2.5</span>
+              <span className="text-[9px] text-slate-400 font-bold border-l border-white/10 pl-2 uppercase tracking-widest leading-none">V2.5</span>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => setTutorialStep(0)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase transition-all duration-300 btn-tactile tutorial-btn-pulse ${glassMode ? 'bg-blue-500/20 text-blue-300 border border-blue-400/40 backdrop-blur-md shadow-lg hover:bg-blue-500/30' : 'bg-blue-600/20 border border-blue-500/30 text-blue-400 hover:bg-blue-600/30'}`}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase transition-all duration-300 btn-tactile tutorial-btn-pulse ${isNebula ? 'bg-blue-500/20 text-blue-300 border border-blue-400/40 backdrop-blur-md shadow-lg hover:bg-blue-500/30' : isDaylight ? 'bg-blue-50 border border-blue-200 text-blue-600 hover:bg-blue-100' : 'bg-blue-600/20 border border-blue-500/30 text-blue-400 hover:bg-blue-600/30'}`}
           >
             <BookOpen className="w-3.5 h-3.5" />
             {t.tutorialBtn}
           </button>
           <button
-            onClick={() => setGlassMode(!glassMode)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase transition-all duration-300 btn-tactile ${glassMode ? 'bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-lg' : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-indigo-400'}`}
+            onClick={cycleTheme}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase transition-all duration-300 btn-tactile ${isNebula ? 'bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-lg' : isDaylight ? 'bg-slate-100 border border-slate-300 text-slate-600 shadow-sm' : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-indigo-400'}`}
           >
-            <Sparkles className={`w-3.5 h-3.5 ${glassMode ? 'animate-pulse' : ''}`} />
-            {lang === 'zh' ? '毛玻璃' : (lang === 'es' ? 'CRISTAL' : 'GLASS')}
+            <Palette className={`w-3.5 h-3.5 ${isNebula ? 'animate-pulse text-blue-400' : isDaylight ? 'text-indigo-500' : 'text-slate-400'}`} />
+            {lang === 'zh' ? (isNebula ? '主题: 星云微光' : isEclipse ? '主题: 深空极简' : '主题: 日光清透') : (lang === 'es' ? (isNebula ? 'Tema: Nébula' : isEclipse ? 'Tema: Eclipse' : 'Tema: Luz') : (isNebula ? 'Theme: Nebula' : isEclipse ? 'Theme: Eclipse' : 'Theme: Daylight'))}
           </button>
 
-          <button onClick={() => setShowCredits(true)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase border transition-all btn-tactile ${glassMode ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white backdrop-blur-sm' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-blue-400'}`}><Info className="w-3.5 h-3.5" /> {t.aboutBtn}</button>
+          <button onClick={() => setShowCredits(true)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase border transition-all btn-tactile ${isNebula ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white backdrop-blur-sm' : isDaylight ? 'bg-white border-slate-200 text-slate-500 hover:text-blue-600' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-blue-400'}`}><Info className="w-3.5 h-3.5" /> {t.aboutBtn}</button>
 
-          <div className={`flex rounded-lg p-0.5 border transition-all ${glassMode ? 'bg-white/5 border-white/10 backdrop-blur-md' : 'bg-slate-900 border-slate-800'}`}>
+          <div className={`flex rounded-lg p-0.5 border transition-all ${isNebula ? 'bg-white/5 border-white/10 backdrop-blur-md' : isDaylight ? 'bg-slate-100 border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
             {['en', 'zh', 'es'].map(l => (
-              <button key={l} onClick={() => setLang(l)} className={`px-2.5 py-1 rounded text-xs font-black uppercase transition-all btn-tactile ${lang === l ? (glassMode ? 'bg-white/10 text-white border border-white/20 shadow-sm' : 'bg-blue-600/40 text-white') : 'text-slate-500 hover:text-white'}`}>
+              <button key={l} onClick={() => setLang(l)} className={`px-2.5 py-1 rounded text-xs font-black uppercase transition-all btn-tactile ${lang === l ? (isNebula ? 'bg-white/10 text-white border border-white/20 shadow-sm' : isDaylight ? 'bg-blue-600 text-white shadow-sm' : 'bg-blue-600/40 text-white') : isDaylight ? 'text-slate-400 hover:text-slate-700' : 'text-slate-400 hover:text-white'}`}>
                 {l}
               </button>
             ))}
           </div>
 
-          <div className={`${glassMode ? 'bg-white/5 border-white/10 backdrop-blur-sm' : 'bg-slate-900/60 border-slate-800'} px-4 py-1 rounded-xl border flex items-center gap-3 transition-colors`}>
+          <div className={`${isNebula ? 'bg-white/5 border-white/10 backdrop-blur-sm' : isDaylight ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-900/60 border-slate-800/80'} px-4 py-1 rounded-xl border flex items-center gap-3 transition-colors`}>
             <p className="text-xs text-slate-400 font-black uppercase">{t.accuracy}</p>
-            <p className="text-lg font-black text-blue-500 transition-all">{stats.accuracy}%</p>
+            <p className="text-lg font-black text-blue-400 transition-all">{stats.accuracy}%</p>
           </div>
         </div>
       </header>
@@ -818,9 +823,9 @@ const App = () => {
 
         {/* LEFT Column (20%) */}
         <section className="flex flex-col gap-3 min-h-0">
-          <div ref={refParams} className="bg-[#161b22] border border-slate-800 rounded-2xl glass-card p-4 flex-1 flex flex-col gap-4 shadow-xl aurora-border overflow-hidden">
+          <div ref={refParams} className="bg-[#0f131a] border border-slate-800/80 rounded-2xl glass-card p-4 flex-1 flex flex-col gap-4 shadow-xl aurora-border overflow-hidden">
             <div className="flex justify-between items-center border-b border-white/10 pb-3 mb-4 flex-shrink-0">
-              <h2 className="text-sm font-black uppercase text-white tracking-[0.15em] flex items-center gap-3">
+              <h2 className={`text-sm font-black uppercase ${isDark ? 'text-white' : 'text-slate-900'} tracking-[0.15em] flex items-center gap-3`}>
                 <div className="p-1.5 bg-blue-500/20 rounded-lg border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
                   <Settings className="w-4 h-4 text-blue-400" />
                 </div>
@@ -850,7 +855,7 @@ const App = () => {
                         <button
                           key={s.id}
                           onClick={() => applyScenario(s)}
-                          className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all btn-tactile ${isActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-slate-800/40 text-slate-400 border border-slate-700/50 hover:text-white hover:bg-slate-700'}`}
+                          className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all btn-tactile ${isActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-slate-800/40 text-slate-300 border border-slate-700/50 hover:text-white hover:bg-slate-700'}`}
                         >
                           <Icon className="w-3 h-3" />
                           <span className="truncate">{t[`scenario${s.id.charAt(0).toUpperCase() + s.id.slice(1)}`]}</span>
@@ -884,7 +889,7 @@ const App = () => {
 
               <div className="flex flex-col gap-2 min-h-0 flex-1">
                 <div className="flex flex-col gap-1.5">
-                  <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                  <h3 className="text-sm font-black text-slate-300 uppercase tracking-widest flex items-center gap-1">
                     {t.weights}
                     <button onClick={() => setExplainer('weights')} className="text-slate-600 hover:text-blue-400 transition-colors btn-tactile p-0.5"><HelpCircle className="w-4 h-4" /></button>
                   </h3>
@@ -899,7 +904,7 @@ const App = () => {
                   {Object.keys(weights).map(k => (
                     <div key={k} className="space-y-0 relative group">
                       <div className="flex justify-between text-xs font-bold leading-none mb-0.5">
-                        <span className="text-slate-400 capitalize truncate">{t[k] || k}</span>
+                        <span className="text-slate-300 capitalize truncate">{t[k] || k}</span>
                         <span className="text-blue-400 font-mono">{weights[k]}%</span>
                       </div>
                       <input type="range" min="0" max="100" value={weights[k]} onChange={(e) => setWeights(p => ({ ...p, [k]: parseInt(e.target.value) }))} className="w-full h-1" />
@@ -914,11 +919,11 @@ const App = () => {
 
         {/* MIDDLE Column (60%) */}
         <section className="flex flex-col gap-3 min-h-0 overflow-hidden">
-          <div ref={refViz} className="bg-[#161b22] border border-slate-800 rounded-2xl glass-card p-4 h-[69%] relative shadow-inner aurora-border">
+          <div ref={refViz} className="bg-[#0f131a] border border-slate-800/80 rounded-2xl glass-card p-4 h-[69%] relative shadow-inner aurora-border">
             <div className="flex flex-col mb-1">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                  <h3 className="text-sm font-black text-white uppercase tracking-[0.15em] flex items-center gap-3">
+                  <h3 className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-[0.15em] flex items-center gap-3`}>
                     <div className="p-1.5 bg-indigo-500/20 rounded-lg border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                       <Activity className="w-4 h-4 text-indigo-400" />
                     </div>
@@ -951,13 +956,13 @@ const App = () => {
               <ResponsiveContainer>
                 <ScatterChart margin={{ top: 20, right: 40, bottom: 20, left: 30 }}>
 
-                  <CartesianGrid strokeDasharray="3 3" stroke={glassMode ? "rgba(255,255,255,0.03)" : "#21262d"} vertical={false} />
-                  <XAxis type="number" dataKey={!swapAxes ? "gpa" : "sat"} domain={!swapAxes ? [2.5, 4.0] : [1200, 1600]} stroke="#484f58" fontSize={11} tick={{ fontFamily: 'JetBrains Mono' }} allowDataOverflow={true} label={{ value: !swapAxes ? 'GPA' : 'SAT', position: 'insideBottomRight', offset: -10, fill: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono', fontWeight: '900' }} />
-                  <YAxis type="number" dataKey={!swapAxes ? "sat" : "gpa"} domain={!swapAxes ? [1200, 1600] : [2.5, 4.0]} stroke="#484f58" fontSize={11} tick={{ fontFamily: 'JetBrains Mono' }} allowDataOverflow={true} label={{ value: !swapAxes ? 'SAT' : 'GPA', angle: -90, position: 'insideLeft', offset: 10, fill: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono', fontWeight: '900' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={isDaylight ? "#e2e8f0" : isNebula ? "rgba(255,255,255,0.03)" : "#21262d"} vertical={false} />
+                  <XAxis type="number" dataKey={!swapAxes ? "gpa" : "sat"} domain={!swapAxes ? [2.5, 4.0] : [1200, 1600]} stroke={isDaylight ? '#94a3b8' : '#484f58'} fontSize={11} tick={{ fontFamily: 'JetBrains Mono' }} allowDataOverflow={true} label={{ value: !swapAxes ? 'GPA' : 'SAT', position: 'insideBottomRight', offset: -10, fill: isDaylight ? '#475569' : '#94a3b8', fontSize: 11, fontFamily: 'JetBrains Mono', fontWeight: '900' }} />
+                  <YAxis type="number" dataKey={!swapAxes ? "sat" : "gpa"} domain={!swapAxes ? [1200, 1600] : [2.5, 4.0]} stroke={isDaylight ? '#94a3b8' : '#484f58'} fontSize={11} tick={{ fontFamily: 'JetBrains Mono' }} allowDataOverflow={true} label={{ value: !swapAxes ? 'SAT' : 'GPA', angle: -90, position: 'insideLeft', offset: 10, fill: isDaylight ? '#475569' : '#94a3b8', fontSize: 11, fontFamily: 'JetBrains Mono', fontWeight: '900' }} />
                   {boundaryVal !== null && (
                     <ReferenceLine y={boundaryVal} stroke="#3b82f6" strokeDasharray="4 4" strokeWidth={2}
                       label={(props) => (
-                        <text x={props.viewBox.x + props.viewBox.width} y={props.viewBox.y} dy={-12} textAnchor="end" fill="#60a5fa" fontSize={11} fontWeight="900" style={{ letterSpacing: '0.05em', paintOrder: 'stroke', stroke: '#0d1117', strokeWidth: '3px', strokeLinejoin: 'round' }}>
+                        <text x={props.viewBox.x + props.viewBox.width} y={props.viewBox.y} dy={-12} textAnchor="end" fill={isDaylight ? '#2563eb' : '#60a5fa'} fontSize={11} fontWeight="900" style={{ letterSpacing: '0.05em', paintOrder: 'stroke', stroke: isDaylight ? '#ffffff' : '#070a0f', strokeWidth: '3px', strokeLinejoin: 'round' }}>
                           {selectedId ? t.conditionalBoundary : t.decisionBoundary}
                         </text>
                       )}
@@ -987,7 +992,7 @@ const App = () => {
                         strokeDasharray="3 3"
                         opacity={0.3}
                         label={(props) => (
-                          <text x={props.viewBox.x + props.viewBox.width} y={props.viewBox.y} dy={-12} textAnchor="end" fill="#60a5fa" fontSize={10} fontWeight="bold" fontFamily="JetBrains Mono" style={{ paintOrder: 'stroke', stroke: '#0d1117', strokeWidth: '3px', strokeLinejoin: 'round' }}>
+                          <text x={props.viewBox.x + props.viewBox.width} y={props.viewBox.y} dy={-12} textAnchor="end" fill="#60a5fa" fontSize={10} fontWeight="bold" fontFamily="JetBrains Mono" style={{ paintOrder: 'stroke', stroke: '#070a0f', strokeWidth: '3px', strokeLinejoin: 'round' }}>
                             {!swapAxes ? Math.round(originalStudent.sat) : originalStudent.gpa.toFixed(2)}
                           </text>
                         )}
@@ -1093,7 +1098,7 @@ const App = () => {
             </div>
           </div>
 
-          <div ref={refData} className="bg-[#161b22] border border-slate-800 rounded-2xl glass-card p-4 h-[31%] relative shadow-inner aurora-border flex flex-col gap-2 overflow-hidden">
+          <div ref={refData} className="bg-[#0f131a] border border-slate-800/80 rounded-2xl glass-card p-4 h-[31%] relative shadow-inner aurora-border flex flex-col gap-2 overflow-hidden">
             {/* Header with tabs */}
             <div className="flex justify-between items-center border-b border-white/10 pb-2 flex-shrink-0">
               <div className="flex items-center gap-2">
@@ -1248,14 +1253,14 @@ const App = () => {
         </section>
         <section className="flex flex-col gap-3 min-h-0 overflow-hidden">
           {/* COUNTERFACTUAL EDITOR (Now in Right Column) */}
-          <div ref={refEditor} className={`bg-[#161b22] border-2 border-blue-500/30 rounded-2xl overflow-hidden flex flex-col h-[69%] shadow-xl aurora-border min-h-0 ${glassMode ? 'glass-card border-none' : ''}`}>
+          <div ref={refEditor} className={`${isDaylight ? 'bg-white border-2 border-blue-300/50' : 'bg-[#0f131a] border-2 border-blue-500/30'} rounded-2xl overflow-hidden flex flex-col h-[69%] shadow-xl aurora-border min-h-0 ${isNebula ? 'glass-card border-none' : ''}`}>
             <div className="p-4 flex flex-col min-h-0 h-full overflow-hidden bg-blue-500/[0.03]">
               <div className="flex items-center justify-between border-b border-blue-500/30 pb-3 mb-1 flex-shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="p-1.5 bg-blue-500/20 rounded-lg border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
                     <Target className="w-4 h-4 text-blue-400" />
                   </div>
-                  <div className="text-sm font-black text-white uppercase tracking-[0.15em]">{t.editor}</div>
+                  <div className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-[0.15em]`}>{t.editor}</div>
                 </div>
                 <button onClick={() => setExplainer('editor')} className="text-slate-500 hover:text-white transition-colors btn-tactile p-0.5"><HelpCircle className="w-4 h-4" /></button>
               </div>
@@ -1387,9 +1392,9 @@ const App = () => {
             </div>
           </div>
 
-          <div ref={refConfusion} className="bg-[#161b22] border border-slate-800 rounded-2xl glass-card p-4 h-[31%] flex flex-col gap-4 shadow-xl aurora-border overflow-hidden">
+          <div ref={refConfusion} className="bg-[#0f131a] border border-slate-800/80 rounded-2xl glass-card p-4 h-[31%] flex flex-col gap-4 shadow-xl aurora-border overflow-hidden">
             <div className="flex justify-between items-center border-b border-white/10 pb-3 mb-2">
-              <p className="text-sm font-black text-white uppercase tracking-[0.15em] leading-none flex items-center gap-3">
+              <p className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-[0.15em] leading-none flex items-center gap-3`}>
                 <div className="p-1.5 bg-emerald-500/20 rounded-lg border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                   <Target className="w-4 h-4 text-emerald-400" />
                 </div>
@@ -1433,7 +1438,7 @@ const App = () => {
             <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-blue-500/30">
               <BookOpen className="w-8 h-8 text-blue-400" />
             </div>
-            <h2 className="text-xl font-black text-white uppercase tracking-wider mb-2">{t.tutorialWelcomeTitle}</h2>
+            <h2 className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-wider mb-2`}>{t.tutorialWelcomeTitle}</h2>
             <p className="text-sm text-slate-400 font-medium leading-relaxed mb-6">{t.tutorialWelcomeDesc}</p>
             <div className="flex gap-3 justify-center">
               <button onClick={() => setTutorialStep(-1)} className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-black uppercase transition-all border border-slate-700">{t.tutorialSkip}</button>
@@ -1471,7 +1476,7 @@ const App = () => {
                 {lang === 'zh' ? `${t.tutorialStep} ${tutorialStep} ${t.tutorialOf} ${TUTORIAL_STEPS.length} 步` : `${t.tutorialStep} ${tutorialStep} ${t.tutorialOf} ${TUTORIAL_STEPS.length}`}
               </span>
             </div>
-            <h3 className="text-sm font-black text-white uppercase tracking-wider mb-1.5">
+            <h3 className={`text-sm font-black ${isDark ? 'text-white' : 'text-slate-900'} uppercase tracking-wider mb-1.5`}>
               {TUTORIAL_STEPS[tutorialStep - 1].title}
             </h3>
             <p className="text-xs text-slate-400 font-medium leading-relaxed mb-4">
