@@ -404,7 +404,7 @@ const App = () => {
   const isEclipse = theme === 'eclipse';
   const isDaylight = theme === 'daylight';
   const isDark = !isDaylight;
-  const cycleTheme = () => setTheme(t => t === 'nebula' ? 'eclipse' : t === 'eclipse' ? 'daylight' : 'nebula');
+  const cycleTheme = () => setTheme(t => t === 'nebula' ? 'daylight' : 'nebula');
 
   const originalStudent = useMemo(() => data.find(s => s.id === selectedId) || null, [data, selectedId]);
 
@@ -798,10 +798,8 @@ const App = () => {
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase transition-all duration-300 btn-tactile ${isNebula ? 'bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-lg' : isDaylight ? 'bg-slate-100 border border-slate-300 text-slate-600 shadow-sm' : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-indigo-400'}`}
           >
             <Palette className={`w-3.5 h-3.5 ${isNebula ? 'animate-pulse text-blue-400' : isDaylight ? 'text-indigo-500' : 'text-slate-400'}`} />
-            {lang === 'zh' ? (isNebula ? '主题: 星云微光' : isEclipse ? '主题: 深空极简' : '主题: 日光清透') : (lang === 'es' ? (isNebula ? 'Tema: Nébula' : isEclipse ? 'Tema: Eclipse' : 'Tema: Luz') : (isNebula ? 'Theme: Nebula' : isEclipse ? 'Theme: Eclipse' : 'Theme: Daylight'))}
+            {lang === 'zh' ? '主题' : lang === 'es' ? 'TEMA' : 'THEME'}
           </button>
-
-          <button onClick={() => setShowCredits(true)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase border transition-all btn-tactile ${isNebula ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white backdrop-blur-sm' : isDaylight ? 'bg-white border-slate-200 text-slate-500 hover:text-blue-600' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-blue-400'}`}><Info className="w-3.5 h-3.5" /> {t.aboutBtn}</button>
 
           <div className={`flex rounded-lg p-0.5 border transition-all ${isNebula ? 'bg-white/5 border-white/10 backdrop-blur-md' : isDaylight ? 'bg-slate-100 border-slate-200' : 'bg-slate-900 border-slate-800'}`}>
             {['en', 'zh', 'es'].map(l => (
@@ -810,6 +808,8 @@ const App = () => {
               </button>
             ))}
           </div>
+
+          <button onClick={() => setShowCredits(true)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase border transition-all btn-tactile ${isNebula ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white backdrop-blur-sm' : isDaylight ? 'bg-white border-slate-200 text-slate-500 hover:text-blue-600' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-blue-400'}`}><Info className="w-3.5 h-3.5" /> {t.aboutBtn}</button>
 
           <div className={`${isNebula ? 'bg-white/5 border-white/10 backdrop-blur-sm' : isDaylight ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-900/60 border-slate-800/80'} px-4 py-1 rounded-xl border flex items-center gap-3 transition-colors`}>
             <p className="text-xs text-slate-400 font-black uppercase">{t.accuracy}</p>
