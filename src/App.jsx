@@ -399,12 +399,12 @@ const App = () => {
     if (dir === 'top') return 'arrow-bottom';
     return '';
   }, [tutorialStep, TUTORIAL_STEPS]);
-  const [theme, setTheme] = useState('nebula'); // 'nebula' | 'eclipse' | 'daylight'
+  const [theme, setTheme] = useState('eclipse'); // 'nebula' | 'eclipse' | 'daylight'
   const isNebula = theme === 'nebula';
   const isEclipse = theme === 'eclipse';
   const isDaylight = theme === 'daylight';
   const isDark = !isDaylight;
-  const cycleTheme = () => setTheme(t => t === 'nebula' ? 'daylight' : 'nebula');
+  const cycleTheme = () => setTheme(t => t === 'eclipse' ? 'daylight' : 'eclipse');
 
   const originalStudent = useMemo(() => data.find(s => s.id === selectedId) || null, [data, selectedId]);
 
